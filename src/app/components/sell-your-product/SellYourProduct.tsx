@@ -8,7 +8,7 @@ export default function SellYourProduct() {
   const router = useRouter()
 
   const handleCategoryClick = (id: string) => {
-    router.push(`/pages/categories/${id}`)
+    router.push(`/categories/${id}`)
   }
 
   return (
