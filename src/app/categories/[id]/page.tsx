@@ -17,11 +17,11 @@ export default function CategoryDetails() {
   }
 
   const handleBack = () => {
-    router.push("/pages/categories") // Back to the main categories page
+    router.push("/categories") // Back to the main categories page
   }
 
   const handleSubcategoryClick = (subcategory: string) => {
-    router.push(`/pages/categories/${id}/sell?subcategory=${subcategory}`) // Navigate to the product form
+    router.push(`/categories/${id}/sell?subcategory=${subcategory}`) // Navigate to the product form
   }
 
   return (

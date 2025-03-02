@@ -1,82 +1,135 @@
-"use client"
-
-import { useState } from "react"
-import { useSearchParams, useRouter } from "next/navigation"
+"use client";
+import { useState } from "react";
 
 export default function ProductForm() {
-  const searchParams = useSearchParams()
-  const subcategory = searchParams.get("subcategory") || "Unknown"
-  const router = useRouter()
-
-  const [formData, setFormData] = useState({
-    productName: "",
-    price: "",
+  const [product, setProduct] = useState({
+    name: "",
     description: "",
-    image: "",
-  })
+    price: "",
+    discountPrice: "",
+    stock: "",
+    unit: "piece",
+    deliveryTime: "2-3 days",
+    category: "",
+    subcategory: "",
+  
+    returnPolicy: "No Return",
+    paymentMode: "COD",
+    sellerName: "Auto-filled",
+    contact: "",
+    location: "",
+    images: [] as File[], // Now stores an array of files
+   
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+  // Handle text, select, and textarea inputs
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setProduct({ ...product, [e.target.name]: e.target.value });
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Product submitted:", formData)
-    router.push(`/categories`) // Redirect back to categories after submission
-  }
+  // Handle file input
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    if (files && files.length > 0) {
+      setProduct((prev) => ({
+        ...prev,
+        [name]: Array.from(files), // Convert FileList to an array
+      }));
+    }
+  };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  
+    const formData = new FormData();
+  
+    Object.keys(product).forEach((key) => {
+      if (key !== "images" && product[key as keyof typeof product]) {
+        formData.append(key, product[key as keyof typeof product] as string);
+      }
+    });
+  
+    product.images.forEach((file) => {
+      formData.append("images", file);
+    });
+  
+    try {
+      const response = await fetch("http://localhost:5000/api/products/add", {
+        method: "POST",
+        body: formData,
+      });
+  
+      const data = await response.json();
+      console.log("Response:", data);
+  
+      if (response.ok) {
+        alert("Product added successfully!");
+      } else {
+        alert(`Error: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error submitting product:", error);
+      alert("Something went wrong!");
+    }
+  };
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-100 to-white">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
-        <h2 className="text-2xl font-bold text-yellow-800 text-center mb-6">
-          Sell a Product in {subcategory}
-        </h2>
+        <h2 className="text-2xl font-bold text-yellow-800 text-center mb-6">Add Your Product</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            name="productName"
-            placeholder="Product Name"
-            className="w-full px-4 py-2 border rounded-lg"
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="text"
-            name="price"
-            placeholder="Price (₹)"
-            className="w-full px-4 py-2 border rounded-lg"
-            onChange={handleChange}
-            required
-          />
-          <textarea
-            name="description"
-            placeholder="Product Description"
-            className="w-full px-4 py-2 border rounded-lg"
-            rows={3}
-            onChange={handleChange}
-            required
-          ></textarea>
-          <input
-            type="text"
-            name="image"
-            placeholder="Image URL"
-            className="w-full px-4 py-2 border rounded-lg"
-            onChange={handleChange}
-          />
-          <button
-            type="submit"
-            className="w-full bg-yellow-600 text-white py-2 rounded-lg hover:bg-yellow-700"
-          >
-            Submit Product
-          </button>
+          <input type="text" name="name" placeholder="Product Name" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" required />
+          <textarea name="description" placeholder="Product Description" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" required></textarea>
+          <input type="number" name="price" placeholder="Price" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" required />
+          <input type="number" name="discountPrice" placeholder="Discount Price (Optional)" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" />
+          <input type="number" name="stock" placeholder="Stock Quantity" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" required />
+
+          <select name="unit" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg">
+            <option value="piece">Piece</option>
+            <option value="kg">Kg</option>
+            <option value="liter">Liter</option>
+          </select>
+
+          <select name="deliveryTime" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg">
+            <option value="2-3 days">2-3 Days</option>
+            <option value="Same-day">Same-day</option>
+            <option value="1 week">1 Week</option>
+          </select>
+
+          <select name="category" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" required>
+            <option value="">Select Category</option>
+            <option value="Food">Food</option>
+            <option value="Handicrafts">Handicrafts</option>
+            <option value="Clothing">Clothing</option>
+          </select>
+
+          <select name="subcategory" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" required>
+            <option value="">Select Subcategory</option>
+            <option value="Snacks">Snacks</option>
+            <option value="Home Decor">Home Decor</option>
+            <option value="Traditional Wear">Traditional Wear</option>
+          </select>
+
+          <select name="returnPolicy" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg">
+            <option value="No Return">No Return</option>
+            <option value="7 Days Return">7 Days Return</option>
+            <option value="30 Days Return">30 Days Return</option>
+          </select>
+
+          <select name="paymentMode" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg">
+            <option value="COD">COD</option>
+            <option value="Online Payment">Online Payment</option>
+            <option value="Both">Both</option>
+          </select>
+
+          <input type="text" name="contact" placeholder="Seller Contact Number" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" required />
+          <input type="text" name="location" placeholder="Seller Location" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" required />
+
+          <input type="file" name="images" multiple accept="image/*" onChange={handleFileChange} className="w-full px-4 py-2 border rounded-lg" required />
+
+          <button type="submit" className="w-full bg-yellow-600 text-white py-2 rounded-lg hover:bg-yellow-700">Submit Product</button>
         </form>
-        <button
-          onClick={() => router.push(`/categories/${subcategory}`)}
-          className="mt-4 w-full text-yellow-800 underline"
-        >
-          Back to {subcategory}
-        </button>
       </div>
     </div>
-  )
+  );
 }

@@ -8,7 +8,49 @@ import Link from "next/link";
 export default function RegistrationForm({ onClose, onSwitch }: { onClose: () => void, onSwitch: () => void }) {
 
   const [isOpen, setIsOpen] = useState(true); // Modal initially open
+  const [formData, setFormData] = useState({
+    name: "",
+    mobile: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/api/seller/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      setSuccess("Registration successful! Please log in.");
+      setTimeout(() => onSwitch(), 2000); // Redirect to login form
+    } catch (error: any) {
+      setError(error.message);
+    }
+  };
+  
   const handleClose = () => {
     setIsOpen(false);
     onClose(); // Notify Navbar
@@ -35,8 +77,9 @@ export default function RegistrationForm({ onClose, onSwitch }: { onClose: () =>
         </button>
         
         <h2 className="text-2xl font-bold mb-6 text-yellow-600">Register to Sell</h2>
-
-        <form className="space-y-4">
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        {success && <p style={{ color: "green" }}>{success}</p>}
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
               Name
@@ -45,6 +88,7 @@ export default function RegistrationForm({ onClose, onSwitch }: { onClose: () =>
               type="text"
               id="name"
               name="name"
+              onChange={handleChange}
               required
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
             />
@@ -57,6 +101,7 @@ export default function RegistrationForm({ onClose, onSwitch }: { onClose: () =>
               type="tel"
               id="mobile"
               name="mobile"
+              onChange={handleChange}
               required
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
             />
@@ -69,6 +114,7 @@ export default function RegistrationForm({ onClose, onSwitch }: { onClose: () =>
               type="email"
               id="email"
               name="email"
+              onChange={handleChange}
               required
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
             />
@@ -81,6 +127,7 @@ export default function RegistrationForm({ onClose, onSwitch }: { onClose: () =>
               type="password"
               id="password"
               name="password"
+              onChange={handleChange}
               required
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
             />
@@ -93,6 +140,7 @@ export default function RegistrationForm({ onClose, onSwitch }: { onClose: () =>
               type="password"
               id="confirmPassword"
               name="confirmPassword"
+              onChange={handleChange}
               required
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
             />
