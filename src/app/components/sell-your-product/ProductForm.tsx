@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-
+import Navbar from "./Navbar"
 export default function ProductForm() {
   const [product, setProduct] = useState({
     name: "",
@@ -74,7 +74,8 @@ export default function ProductForm() {
   };
   
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-100 to-white">
+    <div>   <Navbar/>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-100 to-white pt-16 pb-16">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
         <h2 className="text-2xl font-bold text-yellow-800 text-center mb-6">Add Your Product</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -130,6 +131,7 @@ export default function ProductForm() {
           <button type="submit" className="w-full bg-yellow-600 text-white py-2 rounded-lg hover:bg-yellow-700">Submit Product</button>
         </form>
       </div>
+    </div>
     </div>
   );
 }

@@ -3,7 +3,7 @@
 import { useParams, useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { categories, subcategories } from "@/app/components/sell-your-product/categories"
-
+import Navbar from "../../components/sell-your-product/Navbar"
 
 export default function CategoryDetails() {
   const { id } = useParams() as { id: string }
@@ -26,6 +26,7 @@ export default function CategoryDetails() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-white">
+      <Navbar/>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <motion.h1
           className="text-4xl font-bold text-center text-yellow-800 mb-12"

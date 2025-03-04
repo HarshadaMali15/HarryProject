@@ -6,7 +6,7 @@
   "path": "static/chunks/src_app_sign-up_page_tsx_550f55._.js",
   "chunks": [
     "static/chunks/src_9985c4._.js",
-    "static/chunks/node_modules_9aa5b5._.js"
+    "static/chunks/node_modules_5ac26e._.js"
   ],
   "source": "dynamic"
 });
