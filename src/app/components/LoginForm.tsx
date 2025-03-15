@@ -3,14 +3,16 @@
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation"; // Import useRouter
+import { useSellerAuth } from "@/context/authContextSeller";
 
-export default function LoginForm({ onClose, onSwitch }: { onClose: () => void, onSwitch: () => void }) {
-  const router = useRouter(); // Initialize router
+export default function LoginForm() {
+  const router = useRouter();
+  const { setSeller } = useSellerAuth(); // Initialize router
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isOpen, setIsOpen] = useState(true); // State to track if the modal is open
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,20 +28,36 @@ export default function LoginForm({ onClose, onSwitch }: { onClose: () => void, 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
-        credentials: "include", // Store token in cookies
+        credentials: "include",
       });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
 
+      
+      setSeller(data.seller); 
       setSuccess("Login successful!");
+
       setTimeout(() => {
-        router.push("/categories"); // Redirect to dashboard after login
-      }, 1000); // Delay to show success message
+        router.replace("/categories");
+      }, 1000);
     } catch (error: any) {
       setError(error.message);
     }
   };
+
+
+  const closeForm = () => {
+    setIsOpen(false); 
+  };
+
+  const redirectToSignUp = () => {
+    setIsOpen(false); // Close the form when Sign Up is clicked
+    router.push("/Sell-sign-up"); // Navigate to the sign-up page
+  };
+
+  // If the form is closed, render nothing
+  if (!isOpen) return null;
 
   return (
     <motion.div
@@ -54,7 +72,7 @@ export default function LoginForm({ onClose, onSwitch }: { onClose: () => void, 
         exit={{ scale: 0.9, opacity: 0 }}
         className="bg-white rounded-lg p-8 shadow-xl max-w-md w-full relative"
       >
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+        <button onClick={closeForm} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
           <X size={24} />
         </button>
 
@@ -97,7 +115,7 @@ export default function LoginForm({ onClose, onSwitch }: { onClose: () => void, 
 
           <p className="text-center text-gray-600">
             Don't have an account?{" "}
-            <button onClick={onSwitch} className="text-yellow-600 hover:text-yellow-700 transition-colors">
+            <button onClick={redirectToSignUp} className="text-yellow-600 hover:text-yellow-700 transition-colors">
               Sign Up
             </button>
           </p>

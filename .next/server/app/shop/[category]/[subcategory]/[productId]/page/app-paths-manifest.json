@@ -1,0 +1,3 @@
+{
+  "/shop/[category]/[subcategory]/[productId]/page": "app/shop/[category]/[subcategory]/[productId]/page.js"
+}

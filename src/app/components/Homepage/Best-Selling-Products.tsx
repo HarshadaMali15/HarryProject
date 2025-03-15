@@ -25,7 +25,7 @@ const products = [
     id: 3,
     name: "Sharp Cheddar Cheese Block",
     image: "/placeholder.svg?height=300&width=300",
-    rating: 4.5,
+    rating: 4.1,
     reviews: 32,
     originalPrice: 14.0,
     salePrice: 12.0,

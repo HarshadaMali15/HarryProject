@@ -1,3 +1,4 @@
+
 export const categories = [
   { id: "electronics", name: "Electronics", image: "/1.jpg", hasSubcategories: true },
   { id: "fashion", name: "Fashion", image: "/1.jpg", hasSubcategories: true },

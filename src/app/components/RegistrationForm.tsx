@@ -3,11 +3,10 @@
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation"; 
 
-export default function RegistrationForm({ onClose, onSwitch }: { onClose: () => void, onSwitch: () => void }) {
-
-  const [isOpen, setIsOpen] = useState(true); // Modal initially open
+export default function RegistrationForm() {
+  const router = useRouter(); 
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -18,7 +17,7 @@ export default function RegistrationForm({ onClose, onSwitch }: { onClose: () =>
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
+  const [isOpen, setIsOpen] = useState(true); // Modal initially open
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,6 +28,7 @@ export default function RegistrationForm({ onClose, onSwitch }: { onClose: () =>
     setError("");
     setSuccess("");
 
+    // Check if passwords match
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
       return;
@@ -45,17 +45,20 @@ export default function RegistrationForm({ onClose, onSwitch }: { onClose: () =>
       if (!res.ok) throw new Error(data.message);
 
       setSuccess("Registration successful! Please log in.");
-      setTimeout(() => onSwitch(), 2000); // Redirect to login form
+      setTimeout(() => {
+        setIsOpen(false); // Close the form after registration
+        router.push("/Sell-log-in"); // Navigate to the login page after successful registration
+      }, 2000); // Wait 2 seconds before navigating
     } catch (error: any) {
       setError(error.message);
     }
   };
-  
+
   const handleClose = () => {
-    setIsOpen(false);
-    onClose(); // Notify Navbar
+    setIsOpen(false); // Close the form when X button is clicked
   };
 
+  // If the form is closed, render nothing
   if (!isOpen) return null;
 
   return (
@@ -75,15 +78,14 @@ export default function RegistrationForm({ onClose, onSwitch }: { onClose: () =>
         <button onClick={handleClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
           <X size={24} />
         </button>
-        
+
         <h2 className="text-2xl font-bold mb-6 text-yellow-600">Register to Sell</h2>
         {error && <p style={{ color: "red" }}>{error}</p>}
         {success && <p style={{ color: "green" }}>{success}</p>}
+        
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-              Name
-            </label>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
             <input
               type="text"
               id="name"
@@ -94,9 +96,7 @@ export default function RegistrationForm({ onClose, onSwitch }: { onClose: () =>
             />
           </div>
           <div>
-            <label htmlFor="mobile" className="block text-sm font-medium text-gray-700">
-              Mobile Number
-            </label>
+            <label htmlFor="mobile" className="block text-sm font-medium text-gray-700">Mobile Number</label>
             <input
               type="tel"
               id="mobile"
@@ -107,9 +107,7 @@ export default function RegistrationForm({ onClose, onSwitch }: { onClose: () =>
             />
           </div>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
               id="email"
@@ -120,9 +118,7 @@ export default function RegistrationForm({ onClose, onSwitch }: { onClose: () =>
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
             <input
               type="password"
               id="password"
@@ -133,9 +129,7 @@ export default function RegistrationForm({ onClose, onSwitch }: { onClose: () =>
             />
           </div>
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-              Confirm Password
-            </label>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
             <input
               type="password"
               id="confirmPassword"
@@ -157,9 +151,12 @@ export default function RegistrationForm({ onClose, onSwitch }: { onClose: () =>
 
           <p className="text-center text-gray-600">
             Already have an account?{" "}
-            <button onClick={onSwitch} className="text-yellow-600 hover:text-yellow-700 transition-colors">
-            Sign In
-          </button>
+            <button
+              onClick={() => router.push("/Sell-log-in")} 
+              className="text-yellow-600 hover:text-yellow-700 transition-colors"
+            >
+              Sign In
+            </button>
           </p>
         </form>
       </motion.div>

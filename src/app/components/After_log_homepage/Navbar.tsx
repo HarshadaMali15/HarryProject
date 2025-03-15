@@ -1,43 +1,49 @@
 "use client"
 
-import { useRouter } from "next/navigation";
-import { ShoppingCart } from "lucide-react";
+import Link from "next/link"
+import { Heart, ShoppingCart } from "lucide-react"
 import { motion } from "framer-motion";
+import { useAuth } from "@/context/auth-context"; 
+import { useRouter } from "next/navigation";
+
 
 export default function Navbar() {
   const router = useRouter();
+  const { logout } = useAuth(); // Get logout function from auth context
 
-  const handleLogout = () => {
-    // Clear stored authentication tokens (Modify based on how you store tokens)
-    localStorage.removeItem("authToken"); // Example if you use localStorage
-    sessionStorage.removeItem("authToken"); // Example if you use sessionStorage
-
-    // Redirect to login page
-    router.push("/");
+  const handleLogout = async () => {
+    try {
+      await logout(); // Use context logout function
+      router.push("/log-in"); // Redirect to login page
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
-
   return (
     <nav className="bg-white shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0 flex items-center">
-            <img className="h-8 w-auto" src="/logo.svg" alt="Logo" />
-          </div>
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="text-2xl font-bold text-gray-800">
+          Sweet-Home
+        </Link>
 
-          {/* Search Bar */}
-          <div className="hidden md:flex items-center space-x-4 flex-1 max-w-2xl mx-8">
-            <div className="flex-1 relative">
-              <input
-                type="text"
-                placeholder="Search for more than 20,000 products"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-            </div>
-          </div>
+        {/* Navigation Links */}
+        <div className="flex items-center space-x-6">
+          <Link href="/shop" className="text-gray-600 hover:text-gray-800">
+            Shop
+          </Link>
+          <Link href="/about" className="text-gray-600 hover:text-gray-800">
+            About
+          </Link>
+          <Link href="/contact" className="text-gray-600 hover:text-gray-800">
+            Contact
+          </Link>
+        </div>
 
-          {/* Navigation */}
-          <div className="flex items-center space-x-8">
+
+        {/* Icons */}
+        <div className="flex items-center space-x-4">
+        
             {/* Logout Button */}
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -47,12 +53,15 @@ export default function Navbar() {
             >
               Logout
             </motion.button>
-
-            {/* Shopping Cart Icon */}
-            <ShoppingCart className="w-6 h-6 text-gray-700" />
-          </div>
+          <Link href="/wishlist" className="text-gray-600 hover:text-gray-800">
+            <Heart className="h-5 w-5" />
+          </Link>
+          <Link href="/cart" className="text-gray-600 hover:text-gray-800">
+            <ShoppingCart className="h-5 w-5" />
+          </Link>
         </div>
       </div>
     </nav>
-  );
+  )
 }
+

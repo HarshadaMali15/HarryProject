@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 22, "column": 0}, "map": {"version":3,"sources":["turbopack://[project]/middleware.ts"],"sourcesContent":["// import { NextRequest, NextResponse } from \"next/server\";\r\n\r\n// export function middleware(req: NextRequest) {\r\n//   const token = req.cookies.get(\"token\")?.value; // Get token from cookies\r\n\r\n//   if (!token && req.nextUrl.pathname.startsWith(\"/categories\")) {\r\n//     return NextResponse.redirect(new URL(\"/\", req.url)); // Redirect to login page\r\n//   }\r\n\r\n//   return NextResponse.next(); // Continue if authenticated\r\n// }\r\n\r\n// export const config = {\r\n//   matcher: [\"/categories/:path*\"], // Apply middleware to all /categories routes\r\n// };\r\n"],"names":[],"mappings":"AAAA,2DAA2D;AAE3D,iDAAiD;AACjD,6EAA6E;AAE7E,oEAAoE;AACpE,qFAAqF;AACrF,MAAM;AAEN,6DAA6D;AAC7D,IAAI;AAEJ,0BAA0B;AAC1B,mFAAmF;AACnF,KAAK"}},
+    {"offset": {"line": 33, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

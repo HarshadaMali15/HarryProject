@@ -4,6 +4,8 @@ import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css"
 import type React from "react" // Import React
 import { Toaster } from "sonner";
+import { AuthProvider } from "@/context/auth-context";
+import { SellerAuthProvider } from "@/context/authContextSeller";
 
 
 const geistSans = Geist({
@@ -35,9 +37,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       > <Toaster position="top-right" richColors />
-        
+      <AuthProvider>
+        <SellerAuthProvider>
       {children}
-   
+      </SellerAuthProvider>
+      </AuthProvider>
       </body>
     </html>
   );

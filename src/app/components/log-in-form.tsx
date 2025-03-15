@@ -6,6 +6,7 @@ import { Eye, EyeOff, Mail, Lock, LogIn, CheckCircle2, XCircle } from "lucide-re
 import type React from "react"
 import { useRouter } from "next/navigation";
 import Navbar from "./Homepage/Navbar"
+import { useAuth } from "@/context/auth-context"
 
 
 
@@ -15,6 +16,7 @@ interface ValidationState {
 }
 
 export default function LoginForm() {
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -60,6 +62,7 @@ export default function LoginForm() {
     try {
         const response = await fetch(`http://localhost:5000/api/auth/login`, {
         method: "POST",
+        credentials: 'include',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
@@ -70,8 +73,8 @@ export default function LoginForm() {
         throw new Error(data.message || "Login failed");
       }
   
-      // Redirect to dashboard or any other page after successful login
-      router.push("/homepage");
+      
+      login(data.user);
     } catch (error) {
       alert((error as Error).message);
     }
