@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file://D%3A/HarshaProject/HarryProject/src/app/components/ProtectedRoutes.tsx"],"sourcesContent":["// components/ProtectedRoute.tsx\r\n'use client';\r\n\r\nimport { useEffect } from 'react';\r\nimport { useRouter } from 'next/navigation';\r\nimport { useAuth } from '@/context/auth-context';\r\n\r\nexport default function ProtectedRoute({ children }: { children: React.ReactNode }) {\r\n  const { user, isLoading } = useAuth();\r\n  const router = useRouter();\r\n\r\n  useEffect(() => {\r\n    if (!isLoading && !user) {\r\n      router.push('/log-in');\r\n    }\r\n  }, [user, isLoading, router]);\r\n\r\n  if (isLoading || !user) {\r\n    return <div>Loading...</div>;\r\n  }\r\n\r\n  return <>{children}</>;\r\n}"],"names":[],"mappings":"AAAA,gCAAgC;;;;;AAGhC;AACA;AACA;;;AAJA;;;;AAMe,SAAS,eAAe,EAAE,QAAQ,EAAiC;;IAChF,MAAM,EAAE,IAAI,EAAE,SAAS,EAAE,GAAG,CAAA,GAAA,qIAAA,CAAA,UAAO,AAAD;IAClC,MAAM,SAAS,CAAA,GAAA,qIAAA,CAAA,YAAS,AAAD;IAEvB,CAAA,GAAA,6JAAA,CAAA,YAAS,AAAD;oCAAE;YACR,IAAI,CAAC,aAAa,CAAC,MAAM;gBACvB,OAAO,IAAI,CAAC;YACd;QACF;mCAAG;QAAC;QAAM;QAAW;KAAO;IAE5B,IAAI,aAAa,CAAC,MAAM;QACtB,qBAAO,6LAAC;sBAAI;;;;;;IACd;IAEA,qBAAO;kBAAG;;AACZ;GAfwB;;QACM,qIAAA,CAAA,UAAO;QACpB,qIAAA,CAAA,YAAS;;;KAFF"}},
-    {"offset": {"line": 61, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
-}
