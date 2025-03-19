@@ -6,48 +6,52 @@ import Navbar from "./Navbar"
 import BestSellingProducts from "./Best-Selling-Products"
 import Promotions from "./Promotions"
 import Features from "./Features"
+import slide1 from "../../../../public/homePage/slide1.jpg"
+import slide2 from "../../../../public/homePage/slide2.png"
+import slide3 from "../../../../public/homePage/slide3.jpg"
+import slide4 from "../../../../public/homePage/slide4.jpg"
 
 const slides = [
   {
     title: (
       <>
-        <span className="text-green-500">Organic</span> Foods
+        {/* <span className="text-green-500">Organic</span> Foods
         <br />
         at your
         <br />
-        Doorsteps
+        Doorsteps */}
       </>
     ),
-    subtitle: "Dignissim massa diam elementum.",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Picture1-BF9a86LB1diLsGpJIEdS3yZ29eUds1.png",
-    bgColor: "bg-[#FFE17D]",
+    subtitle: "",
+    image: "/homePage/slide4.jpg",
+   
   },
   {
     title: (
       <>
-        <span className="text-green-500">Fresh</span> Veggies
+        {/* <span className="text-green-500">Fresh</span> Veggies
         <br />
         Daily
         <br />
-        Delivery
+        Delivery */}
       </>
     ),
-    subtitle: "Farm fresh vegetables for your family.",
-    image: "/placeholder.svg?height=600&width=800",
+    subtitle: "",
+    image: "/homePage/slide2.png",
     bgColor: "bg-[#E8F5E9]",
   },
   {
     title: (
       <>
-        <span className="text-green-500">Healthy</span> Food
+        {/* <span className="text-green-500">Healthy</span> Food
         <br />
         Healthy
         <br />
-        Lifestyle
+        Lifestyle */}
       </>
     ),
-    subtitle: "Choose the best for your health.",
-    image: "/placeholder.svg?height=600&width=800",
+    subtitle: "",
+    image: "/homePage/candle-slide.jpg",
     bgColor: "bg-[#FFF3E0]",
   },
 ]
@@ -75,18 +79,15 @@ export default function Home() {
               key={index}
               className={`absolute w-full h-full transition-opacity duration-1000 ${
                 currentSlide === index ? "opacity-100" : "opacity-0"
-              } ${slide.bgColor}`}
+              }`}
+              style={{ backgroundImage: `url(${slide.image})`, backgroundSize: "cover", backgroundPosition: "center" , zIndex:99, }}
             >
               <div className="max-w-7xl mx-auto px-6 py-20 h-full">
                 <div className="max-w-2xl">
-                  <h1 className="text-5xl md:text-6xl font-bold leading-tight">{slide.title}</h1>
-                  <p className="mt-6 text-xl text-gray-700">{slide.subtitle}</p>
+                  <h1 className="text-5xl md:text-6xl font-bold leading-tight text-white">{slide.title}</h1>
+                  <p className="mt-6 text-xl text-gray-200">{slide.subtitle}</p>
                 </div>
               </div>
-              <div
-                className="absolute right-0 top-0 w-1/2 h-full bg-contain bg-right-top bg-no-repeat transition-transform duration-1000"
-                style={{ backgroundImage: `url(${slide.image})` }}
-              />
             </div>
           ))}
         </div>

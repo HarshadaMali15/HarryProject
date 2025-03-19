@@ -18,7 +18,7 @@ export default function Navbar() {
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
-            <img className="h-8 w-auto" src="/logo.svg" alt="Logo" />
+            <Link href={"/"}><img className="h-12 w-auto" src="/homePage/Sweethome1.png" alt="Logo" /></Link>
           </div>
 
           {/* Categories and Search */}

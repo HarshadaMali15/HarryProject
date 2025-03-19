@@ -1,12 +1,16 @@
 import Image from "next/image"
 import { Star, Eye } from "lucide-react"
 import Link from "next/link"
+import chocolate from "../../../../public/homePage/chochlate.jpg"
+import gift from "../../../../public/homePage/gifts-box.webp"
+import card from "../../../../public/homePage/447.jpg"
+import trending from "../../../../public/homePage/trending2.jpg"
 
 const products = [
   {
     id: 1,
-    name: "Whole Wheat Sandwich",
-    image: "/placeholder.svg?height=300&width=300",
+    name: "Chocolate",
+    image: chocolate,
     rating: 4.5,
     reviews: 222,
     originalPrice: 24.0,
@@ -14,8 +18,8 @@ const products = [
   },
   {
     id: 2,
-    name: "Whole Grain Oatmeal",
-    image: "/placeholder.svg?height=300&width=300",
+    name: "Gifts Wrapper",
+    image: gift,
     rating: 4.5,
     reviews: 41,
     originalPrice: 54.0,
@@ -23,8 +27,8 @@ const products = [
   },
   {
     id: 3,
-    name: "Sharp Cheddar Cheese Block",
-    image: "/placeholder.svg?height=300&width=300",
+    name: "Beauty Brands",
+    image: trending,
     rating: 4.1,
     reviews: 32,
     originalPrice: 14.0,
@@ -32,8 +36,8 @@ const products = [
   },
   {
     id: 4,
-    name: "Organic Baby Spinach",
-    image: "/placeholder.svg?height=300&width=300",
+    name: "Designed Cards",
+    image: card,
     rating: 4.5,
     reviews: 222,
     originalPrice: 24.0,

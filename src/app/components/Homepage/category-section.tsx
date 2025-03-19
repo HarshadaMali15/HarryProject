@@ -1,33 +1,37 @@
-import Image from "next/image" // Add this import
-import img from "../../../../public/1.jpg" // Adjust the path based on your file structure
+import Image from "next/image" 
+import Jwellery from "../../../../public/homePage/jwellery.jpg"
+import wooden from "../../../../public/homePage/wooden.webp" 
+import paint from "../../../../public/homePage/paint.jpg" 
+import candle from "../../../../public/homePage/candle1.jpg" 
+import handcraft from "../../../../public/homePage/handcraft.jpg" 
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import Link from "next/link"
 
 const categories = [
   {
     id: 1,
-    name: "Breads & Sweets",
-    image: img,
+    name: "Candles",
+    image: candle,
   },
   {
     id: 2,
-    name: "Breads & Sweets",
-    image: img,
+    name: "Jwellery",
+    image: Jwellery,
   },
   {
     id: 3,
-    name: "Fruits & Veges",
-    image: img,
+    name: "HandCrafts",
+    image: handcraft,
   },
   {
     id: 4,
-    name: "Beverages",
-    image: img,
+    name: "WoodWorking",
+    image: wooden,
   },
   {
     id: 5,
-    name: "Meat Products",
-    image: img,
+    name: "Paintings and Arts",
+    image: paint,
   },
 ]
 

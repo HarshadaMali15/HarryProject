@@ -4,17 +4,18 @@ export const categories = [
       subcategories: ["Dresses", "Party Dresses", "Maxi Dresses"],
     },
     {
-      name: "Shirts",
-      subcategories: ["T-Shirts", "Formal Shirts", "Casual Shirts"],
+      name: "Candles",
+      subcategories: ["ScentedCandles", "NormalCandles", "Coloredcandles"],
+    },
+    {
+      name: "HandCrafts",
+      subcategories: [ "Wooden", "Hanging"],
     },
     {
       name: "Jeans",
       subcategories: ["Skinny", "Bootcut", "Straight"],
     },
-    {
-      name: "Swimwear",
-      subcategories: ["Bikinis", "One Piece", "Cover Ups"],
-    },
+   
     {
       name: "Sleepwear",
       subcategories: ["Pajamas", "Nightgowns", "Robes"],

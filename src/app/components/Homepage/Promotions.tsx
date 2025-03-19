@@ -10,7 +10,7 @@ export default function Promotions() {
           <div className="relative h-[400px] lg:h-full overflow-hidden rounded-lg group">
             <div className="absolute inset-0 bg-black">
               <Image
-                src="/sale.jpg" // Update with your image name from public folder
+                src="/homepage/shop-now.jpeg" // Update with your image name from public folder
                 alt="Items on Sale"
                 fill
                 className="object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
@@ -36,7 +36,7 @@ export default function Promotions() {
             <div className="relative overflow-hidden rounded-lg bg-[#47B5FF] group">
               <div className="absolute inset-0">
                 <Image
-                  src="/combo.jpg" // Update with your image name from public folder
+                  src="/homepage/sale1.jpeg" 
                   alt="Combo offers"
                   fill
                   className="object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
@@ -59,7 +59,7 @@ export default function Promotions() {
             <div className="relative overflow-hidden rounded-lg bg-[#06B6D4] group">
               <div className="absolute inset-0">
                 <Image
-                  src="/discount.jpg" 
+                  src="/homepage/discount.jpeg" 
                   alt="Discount Coupons"
                   fill
                   className="object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
