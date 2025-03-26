@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import Navbar from "./Navbar"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { categories } from "@/app/data/categories"
+import { categories, subcategories } from "../sell-your-product/categories"
 
 const slides = [
   {
@@ -27,12 +27,11 @@ const slides = [
   },
 ]
 
-
 const pages = ["Shopping Cart", "Checkout", "My Account", "Track Order"]
 
 export default function Shop() {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [expandedCategories, setExpandedCategories] = useState<number[]>([])
+  const [expandedCategories, setExpandedCategories] = useState<string[]>([])
  
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length)
@@ -42,8 +41,8 @@ export default function Shop() {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
   }
 
-  const toggleCategory = (index: number) => {
-    setExpandedCategories((prev) => (prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]))
+  const toggleCategory = (categoryId: string) => {
+    setExpandedCategories((prev) => (prev.includes(categoryId) ? prev.filter((id) => id !== categoryId) : [...prev, categoryId]))
   }
 
   return (
@@ -56,29 +55,30 @@ export default function Shop() {
           {/* Sidebar */}
           <div className="w-64 flex-shrink-0 pr-6">
             <ul className="border rounded-lg overflow-hidden">
-              {categories.map((category, index) => (
-                <li key={category.name} className="relative">
+              {categories.map((category) => (
+                <li key={category.id} className="relative">
                   <div className="flex flex-col">
                     <div
                       className="flex justify-between items-center px-4 py-2 hover:bg-primary hover:text-white transition-colors border-b last:border-b-0 cursor-pointer"
-                      onClick={() => toggleCategory(index)}
+                      onClick={() => toggleCategory(category.id)}
                     >
                       <span className="flex-1">{category.name}</span>
                       <ChevronDown
                         className={cn(
                           "h-4 w-4 transition-transform duration-200",
-                          expandedCategories.includes(index) ? "rotate-180" : "",
+                          expandedCategories.includes(category.id) ? "rotate-180" : "",
                         )}
                       />
                     </div>
 
                     <div
-                      className={cn(
-                        "overflow-hidden transition-all duration-300 bg-gray-50",
-                        expandedCategories.includes(index) ? "max-h-[120px]" : "max-h-0",
-                      )}
-                    >
-                      {category.subcategories.map((sub) => (
+                        className={cn(
+                          "overflow-hidden transition-all duration-300 bg-gray-50",
+                          expandedCategories.includes(category.id) ? "max-h-[500px]" : "max-h-0",
+                        )}
+                      >
+
+                      {subcategories[category.id]?.map((sub) => (
                         <Link
                           key={sub}
                           href={`/shop/${encodeURIComponent(category.name.toLowerCase())}/${encodeURIComponent(sub.toLowerCase().replace(/\s+/g, "-"))}`}
@@ -93,7 +93,6 @@ export default function Shop() {
               ))}
             </ul>
           </div>
-
 
           {/* Hero Section */}
           <div className="flex-1 relative">

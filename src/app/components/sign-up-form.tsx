@@ -193,13 +193,7 @@ export default function SignUpForm() {
         <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-xl overflow-hidden">
           {/* Header Image */}
           <div className="relative h-32 bg-yellow-400 flex items-center justify-center">
-            <Image
-              src="/placeholder.svg?height=200&width=400"
-              alt="Sign up header"
-              width={400}
-              height={200}
-              className="absolute inset-0 w-full h-full object-cover opacity-20"
-            />
+            
             <motion.div
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}

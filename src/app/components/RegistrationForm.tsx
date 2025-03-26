@@ -3,10 +3,10 @@
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useState } from "react";
-import { useRouter } from "next/navigation"; 
+import Link from "next/link";
 
-export default function RegistrationForm() {
-  const router = useRouter(); 
+export default function RegistrationForm({ onClose, onSwitch }: { onClose: () => void, onSwitch: () => void }) {
+  const [isOpen, setIsOpen] = useState(true); // Modal initially open
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -17,8 +17,7 @@ export default function RegistrationForm() {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [isOpen, setIsOpen] = useState(true); // Modal initially open
-
+ 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -45,17 +44,15 @@ export default function RegistrationForm() {
       if (!res.ok) throw new Error(data.message);
 
       setSuccess("Registration successful! Please log in.");
-      setTimeout(() => {
-        setIsOpen(false); // Close the form after registration
-        router.push("/Sell-log-in"); // Navigate to the login page after successful registration
-      }, 2000); // Wait 2 seconds before navigating
+      setTimeout(() => onSwitch(), 2000); // Redirect to login form
     } catch (error: any) {
       setError(error.message);
     }
   };
 
   const handleClose = () => {
-    setIsOpen(false); // Close the form when X button is clicked
+    setIsOpen(false);
+    onClose(); // Notify Navbar
   };
 
   // If the form is closed, render nothing
@@ -66,7 +63,8 @@ export default function RegistrationForm() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[9999]"
+
     >
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
@@ -151,12 +149,9 @@ export default function RegistrationForm() {
 
           <p className="text-center text-gray-600">
             Already have an account?{" "}
-            <button
-              onClick={() => router.push("/Sell-log-in")} 
-              className="text-yellow-600 hover:text-yellow-700 transition-colors"
-            >
-              Sign In
-            </button>
+            <button onClick={onSwitch} className="text-yellow-600 hover:text-yellow-700 transition-colors">
+            Sign In
+          </button>
           </p>
         </form>
       </motion.div>

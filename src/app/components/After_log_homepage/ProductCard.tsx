@@ -9,6 +9,7 @@ interface ProductCardProps {
   discountPrice?: number;
   category: string;
   subcategory: string;
+  // rating?: number; // Add rating prop
 }
 
 export default function ProductCard({
@@ -19,6 +20,7 @@ export default function ProductCard({
   discountPrice,
   category,
   subcategory,
+  // rating // Add rating prop
 }: ProductCardProps) {
   const discountPercentage = discountPrice ? Math.round(((price - discountPrice) / price) * 100) : 0;
 
@@ -58,6 +60,7 @@ export default function ProductCard({
             />
           </svg>
           <span className="text-sm">4.8</span>
+          {/* //<span className="text-sm">{rating?.toFixed(1) || "N/A"}</span> */}
         </div>
       </div>
       <div className="p-3 ">

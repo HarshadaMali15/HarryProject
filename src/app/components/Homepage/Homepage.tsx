@@ -6,10 +6,10 @@ import Navbar from "./Navbar"
 import BestSellingProducts from "./Best-Selling-Products"
 import Promotions from "./Promotions"
 import Features from "./Features"
-import slide1 from "../../../../public/homePage/slide1.jpg"
-import slide2 from "../../../../public/homePage/slide2.png"
-import slide3 from "../../../../public/homePage/slide3.jpg"
-import slide4 from "../../../../public/homePage/slide4.jpg"
+// import slide1 from "../../../../public/homePage/slide1.jpg"
+// import slide2 from "../../../../public/homePage/slide2.png"
+// import slide3 from "../../../../public/homePage/slide3.jpg"
+// import slide4 from "../../../../public/homePage/slide4.jpg"
 
 const slides = [
   {

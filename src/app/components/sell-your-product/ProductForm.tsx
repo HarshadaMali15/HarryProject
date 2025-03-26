@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import Navbar from "./Navbar"
-import { categories } from "@/app/data/categories";
+// import { categories } from "@/app/data/categories";
+import { categories, subcategories } from "./categories";
 export default function ProductForm() {
   const [product, setProduct] = useState({
     name: "",
@@ -98,7 +99,7 @@ export default function ProductForm() {
               <option value="1 week">1 Week</option>
             </select>
 
-            <select name="category" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" required>
+            {/* <select name="category" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" required>
               <option value="">Select Category</option>
               {categories.map((category) => (
                 <option key={category.name} value={category.name}>{category.name}</option>
@@ -111,7 +112,22 @@ export default function ProductForm() {
                 .find((cat) => cat.name === product.category)?.subcategories.map((sub) => (
                   <option key={sub} value={sub}>{sub}</option>
                 ))}
+            </select> */}
+
+            <select name="category" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" required>
+              <option value="">Select Category</option>
+              {categories.map((category) => (
+                <option key={category.name} value={category.name}>{category.name}</option>
+              ))}
             </select>
+
+            <select name="subcategory" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg" disabled={!product.category} required>
+              <option value="">Select Subcategory</option>
+              {product.category && subcategories[product.category]?.map((sub: string) => (
+                <option key={sub} value={sub}>{sub}</option>
+              ))}
+            </select>
+
 
             <select name="returnPolicy" onChange={handleChange} className="w-full px-4 py-2 border rounded-lg">
               <option value="No Return">No Return</option>
