@@ -6,7 +6,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 export default function RegistrationForm({ onClose, onSwitch }: { onClose: () => void, onSwitch: () => void }) {
-  const [isOpen, setIsOpen] = useState(true); // Modal initially open
+  const [isOpen, setIsOpen] = useState(true); 
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",

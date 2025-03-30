@@ -15,38 +15,37 @@ interface Product {
   sold: number;
 }
 
-// Temporary Seller ID (Replace with actual authentication logic)
-const sellerId = "SELLER_ID_FROM_AUTH"; 
-
 export default function ProductManagement() {
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
-  // Fetch Products from API
+  // Fetch products for the current seller using the new endpoint
   useEffect(() => {
     fetchProducts();
   }, []);
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/products`);
+      const res = await fetch("http://localhost:5000/api/products/mine", {
+        credentials: "include", // Send cookies with the request
+      });
       if (!res.ok) throw new Error(`Failed to fetch products: ${res.status}`);
-  
       const data = await res.json();
       console.log("Fetched products:", data);
-  
-      setProducts(data.products);  // Ensure sellerId is included in API response
+      setProducts(data.products);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
-  
 
   // Delete Product
   const deleteProduct = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/products/${id}`, { method: "DELETE" });
+      const res = await fetch(`http://localhost:5000/api/products/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
       if (!res.ok) throw new Error("Failed to delete product");
       setProducts(products.filter(product => product._id !== id));
     } catch (error) {
@@ -54,7 +53,7 @@ export default function ProductManagement() {
     }
   };
 
-  // Filtered products based on search and category
+  // Filter products based on search and category
   const filteredProducts = products.filter(product =>
     (selectedCategory === "All" || product.category === selectedCategory) &&
     product.name.toLowerCase().includes(search.toLowerCase())
@@ -76,8 +75,18 @@ export default function ProductManagement() {
 
       <div className="bg-white shadow-md rounded-lg p-6">
         <div className="flex justify-between items-center mb-4">
-          <Input type="text" placeholder="Search products..." className="w-1/3" value={search} onChange={(e) => setSearch(e.target.value)} />
-          <select className="w-1/4 border p-2 rounded-md" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+          <Input
+            type="text"
+            placeholder="Search products..."
+            className="w-1/3"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <select
+            className="w-1/4 border p-2 rounded-md"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
             <option value="All">All Categories</option>
             {[...new Set(products.map(p => p.category))].map(category => (
               <option key={category} value={category}>{category}</option>
@@ -105,8 +114,12 @@ export default function ProductManagement() {
                 <td className="p-3">{product.stock}</td>
                 <td className="p-3">{product.sold}</td>
                 <td className="p-3 flex gap-2">
-                  <Button className="bg-gray-200 text-gray-800 px-2 py-1"><Pencil size={16} /></Button>
-                  <Button onClick={() => deleteProduct(product._id)} className="bg-red-500 text-white px-2 py-1"><Trash size={16} /></Button>
+                  <Button className="bg-gray-200 text-gray-800 px-2 py-1">
+                    <Pencil size={16} />
+                  </Button>
+                  <Button onClick={() => deleteProduct(product._id)} className="bg-red-500 text-white px-2 py-1">
+                    <Trash size={16} />
+                  </Button>
                 </td>
               </tr>
             ))}
